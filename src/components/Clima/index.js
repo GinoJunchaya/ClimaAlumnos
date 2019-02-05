@@ -19,7 +19,8 @@ class Clima extends Component{
 
     render(){
         return(
-            <section></section>
+            <section>
+            </section>
         );
     }
 
