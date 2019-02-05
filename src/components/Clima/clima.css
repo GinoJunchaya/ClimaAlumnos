@@ -1,0 +1,27 @@
+.clima-container{
+    width: 50%;
+    padding: 15px;
+    border: 0.5px solid silver;
+    border-radius: 15px;
+    display: flex;
+    margin: auto;
+}
+
+.clima-block{
+    width: 50%;
+}
+
+h2, h3, h4, h5{
+    font-weight: 200;    
+}
+
+.temperatura-visor{
+    font-size: 90px;
+    font-weight: 250;
+}
+
+.temperatura-u-medida{
+    font-weight: 100;
+    font-size: 20px;
+    color: silver;
+}
