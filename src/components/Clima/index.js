@@ -36,19 +36,20 @@ class Clima extends Component{
                 <section className="clima-block">
                     <section>
                         <h3><b>{datosClima.location.name}</b></h3>
-                        <h4>{diasSemana[fecha.getUTCDay()]}</h4>
+                        <h4>{diasSemana[fecha.getUTCDay()] + ", " + fecha.toLocaleTimeString()}</h4>
                         <h4>{datosClima.current.condition.text}</h4>
                     </section>
                     <section>
-                        <span className="temperatura-visor">30</span>
+                        <img src={datosClima.current.condition.icon} />
+                        <span className="temperatura-visor">{datosClima.current.temp_c}</span>
                         <a className="temperatura-u-medida">C°</a> 
                         <a className="temperatura-u-medida">F°</a>
                     </section>
                 </section>
                 <section className="clima-block">
-                    <h4><b>Visibilidad:</b> 20 km</h4>                    
-                    <h4><b>Humedad:</b> 50%</h4>
-                    <h4><b>Velocidad del viento:</b> 20 km/h</h4>
+                    <h4><b>Visibilidad:</b> {datosClima.current.vis_km} km</h4>
+                    <h4><b>Humedad:</b> {datosClima.current.humidity}%</h4>
+                    <h4><b>Velocidad del viento:</b> {datosClima.current.wind_kph} km/h</h4>
                 </section>
             </section>
         );
@@ -62,6 +63,7 @@ class Clima extends Component{
             type: "GET",
             url: "http://api.apixu.com/v1/current.json?key=" + this.state.apiKey + "&q=" + this.state.ciudad,
             success: function (res) {
+                console.log(res);
                 this.setState({
                     datosClima: res,
                     loading: false
