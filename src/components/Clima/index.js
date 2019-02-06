@@ -7,9 +7,10 @@ class Clima extends Component{
     constructor(props, context){
         super(props);
         this.state = {
-            loading: false,
+            loading: true,
             datosClima: undefined,
             apiKey: "894da49a97d24e28b9b225614190402",
+            mapboxApiKey: "pk.eyJ1IjoiZ2lub2p1bmNoYXlhIiwiYSI6ImNqcnM3djQzaTFudG00NGw5M3d2NmY3ajUifQ.aPQrAClI7neKrXEwua_QwQ",
             ciudad: "Asunción",
             medidaTemperatura: "c",
             temperaturaMostrar: undefined
@@ -18,7 +19,6 @@ class Clima extends Component{
 
     componentWillMount(){
         this.getCoordenadasUsuario();
-        this.getClimaActual();
     }
 
     render(){
@@ -121,7 +121,7 @@ class Clima extends Component{
         this.setState({
             coordenadas: position.coords,
             loading: false
-        });
+        }, this.getCiudadPorCoordenadas.bind(this));
     }
 
     geoError(){
@@ -129,6 +129,26 @@ class Clima extends Component{
         this.setState({
             coordenadas: undefined,
             loading: false
+        });
+    }
+
+    getCiudadPorCoordenadas(){
+        var coordenadas = this.state.coordenadas;
+        if(coordenadas === undefined){
+            return undefined;
+        }
+        $.ajax({
+            type: "GET",
+            url: "https://api.mapbox.com/geocoding/v5/mapbox.places/" + coordenadas.longitude + "," + coordenadas.latitude + ".json?access_token=" + this.state.mapboxApiKey,
+            success: function(res){
+                this.setState({
+                    ciudad: res.features[1].text
+                }, this.getClimaActual.bind(this));
+            }.bind(this),
+            error: function(xhr, status, err){
+                console.log(err);
+            },
+            timeout: 15000
         });
     }
 
