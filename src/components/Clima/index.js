@@ -17,6 +17,7 @@ class Clima extends Component{
     }
 
     componentWillMount(){
+        this.getCoordenadasUsuario();
         this.getClimaActual();
     }
 
@@ -61,7 +62,7 @@ class Clima extends Component{
                     <h4><b>Visibilidad:</b> {datosClima.current.vis_km} km</h4>
                     <h4><b>Humedad:</b> {datosClima.current.humidity}%</h4>
                     <h4><b>Velocidad del viento:</b> {datosClima.current.wind_kph} km/h</h4>
-                    <button onClick={this.getClimaActual.bind(this)}>Actualizar</button>
+                    <button className="btn-actualizar" onClick={this.getClimaActual.bind(this)}>Actualizar</button>
                 </section>
             </section>
         );
@@ -105,6 +106,29 @@ class Clima extends Component{
         this.setState({
             medidaTemperatura: "f",
             temperaturaMostrar: this.state.datosClima.current.temp_f
+        });
+    }
+
+    getCoordenadasUsuario(){
+        if(navigator.geolocation){
+            var geoOptions = {timeout: 15000};
+            navigator.geolocation.getCurrentPosition(this.geoSuccess.bind(this), this.geoError.bind(this), geoOptions);
+        }
+    }
+
+    geoSuccess(position){
+        console.log(position);
+        this.setState({
+            coordenadas: position.coords,
+            loading: false
+        });
+    }
+
+    geoError(){
+        console.log("Error");
+        this.setState({
+            coordenadas: undefined,
+            loading: false
         });
     }
 
