@@ -4,7 +4,7 @@ import Clima from './components/Clima';
 class App extends Component {
   render() {
     return (
-      <div>
+      <div style={{height: "100%", display: "flex"}}>
         <Clima/>        
       </div>
     );
